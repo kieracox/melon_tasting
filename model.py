@@ -10,13 +10,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String, unique=True, nullable=False)
 
-    appointments = db.relationship("Appointment", back_populates="user")
+    reservations = db.relationship("Reservation", back_populates="user")
 
     def __repr__(self):
         return f"User id={self.id}, username={self.username}"
 
-class Appointment(db.Model):
-    __tablename__ = "appointment"
+class Reservation(db.Model):
+    __tablename__ = "reservations"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -24,10 +24,10 @@ class Appointment(db.Model):
     time = db.Column(db.Time)
 
 
-    user = db.relationship("User", back_populates="appointments")
+    user = db.relationship("User", back_populates="reservations")
 
     def __repr__(self):
-        return f"Appointment id={self.id} for user: {self.user_id} on: {self.date}"
+        return f"reservation id={self.id} for user: {self.user_id} on: {self.date}"
 
 def connect_to_db(flask_app, db_uri="postgresql:///jobs", echo=False):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
