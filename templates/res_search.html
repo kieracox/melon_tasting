@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block title %}Search for Reservations{% endblock %} 
+
+{% block body %} 
+
+<h1>Search for a Reservation Time</h1>
+
+<p>
+    Or see your upcoming reservations <a href="/reservations">here.</a>
+</p>
+
+<form action="/search">
+    <p>
+        Enter a date: <input type="date" name="date" required>
+    </p>
+    <p>Enter a time range (optional):
+    <br>
+    From: <input name="start" type="time">
+    To: <input name="end" type="time">
+    </p>
+    <p>
+        <input type="submit">
+    </p>
+
+</form>
+
+{% endblock %}
