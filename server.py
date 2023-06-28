@@ -16,7 +16,7 @@ def homepage():
     """View homepage."""
     return render_template('homepage.html')
 
-@app.route("/login")
+@app.route("/login", methods=['POST'])
 def login():
     """Log in a user."""
     username = request.form.get("username")
