@@ -19,6 +19,16 @@ def homepage():
 @app.route("/login")
 def login():
     """Log in a user."""
+    username = request.form.get("username")
+    user = crud.get_user_by_username(username)
+    if user:
+        flash(f"Welcome back, {username}!")
+    else:
+        user = crud.create_user(username)
+        db.session.add(user)
+        db.session.commit()
+        flash("Created your account. You are now logged in!")
+    session["username"] = user.username
     return redirect('/landing_page')
 
 @app.route("/landing_page")

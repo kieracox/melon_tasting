@@ -4,6 +4,10 @@ def create_user(username):
     """Create and return a new user."""
     return User(username=username)
 
+def get_user_by_username(username):
+    """Get and return a user by their username."""
+    return User.query.filter(User.username == username).first()
+
 def create_reservation(user_id, date, time):
     """Create and return a new reservation."""
     return Reservation(user_id=user_id, date=date, time=time)
