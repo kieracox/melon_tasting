@@ -29,6 +29,7 @@ def login():
         db.session.commit()
         flash("Created your account. You are now logged in!")
     session["username"] = user.username
+    session["user_id"] = user.id
     return redirect('/landing_page')
 
 @app.route("/landing_page")
@@ -39,6 +40,17 @@ def landing_page():
 @app.route("/search")
 def res_search():
     """Search for available reservation slots."""
+    date_str = request.args.ge('date')
+    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+    start_time = request.args.get("start")
+    end_time = request.args.get("end")
+
+    if crud.user_booked_on_date(session["user_id"], date_obj):
+        flash("You already have a reservation on that day!")
+        return redirect("/landing_page")
+    
+    reservations = crud.get_res_on_date(date_obj)
+   
     return render_template('search_results.html')
 
 @app.route("/book_res")
@@ -49,7 +61,8 @@ def book_res():
 @app.route("/reservations")
 def user_res():
     """Show the reservations for a given user."""
-    return render_template('user_info.html')
+    user = crud.get_user_by_username(session["username"])
+    return render_template('user_info.html', reservations = user.reservations)
 
 
 

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %} 
+
+Available reservations on {{ date }} 
+{% if no_start %}
+all day
+{% else %} 
+from 
+{{start_time}} 
+to
+{{ end_time }} 
+{% endif %}
+
+{% for res_time in res_times %}
+
+<form method="POST" action="/book_res">
+    <input type="hidden" name="date" value="{{ date }}">
+    <button type="submit" name="start_time" value ="{{ res_time }}">
+        Book at {{ res_time }}
+    </button>
+</form>
+{% endfor %}
+
+{% endblock %}
+

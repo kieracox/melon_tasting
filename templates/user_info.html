@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %} 
+
+{% if reservations %} 
+
+You have the following reservations:
+{% for res in reservations %}
+<p>
+    {{ res.date}} at {{res.time}}
+</p>
+{% endfor %}
+{% else %} 
+You don't have any reservations at the moment! Maybe you should book one?
+{% endif %} 
+
+<a href="/landing_page">Return to homepage</a>
+{% endblock %}
