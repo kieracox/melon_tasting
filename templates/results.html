@@ -3,23 +3,25 @@
 {% block body %} 
 
 Available reservations on {{ date }} 
-{% if no_start %}
+{% if not start %}
 all day
 {% else %} 
 from 
-{{start_time}} 
+{{start}} 
 to
-{{ end_time }} 
+{{ end }} 
 {% endif %}
+<br>
 
-{% for res_time in res_times %}
-
+{% for slot in available_slots %}
+{{ slot.start }} - {{ slot.end }}
 <form method="POST" action="/book_res">
     <input type="hidden" name="date" value="{{ date }}">
-    <button type="submit" name="start_time" value ="{{ res_time }}">
-        Book at {{ res_time }}
+    <button type="submit" name="start_time" value ="{{ slot.start }}">
+        Book this Slot
     </button>
 </form>
+<br>
 {% endfor %}
 
 {% endblock %}

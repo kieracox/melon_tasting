@@ -40,18 +40,23 @@ def landing_page():
 @app.route("/search")
 def res_search():
     """Search for available reservation slots."""
-    date_str = request.args.ge('date')
+    date_str = request.args.get('date')
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')
     start_time = request.args.get("start")
     end_time = request.args.get("end")
+   
 
     if crud.user_booked_on_date(session["user_id"], date_obj):
         flash("You already have a reservation on that day!")
         return redirect("/landing_page")
     
     reservations = crud.get_res_on_date(date_obj)
+    
+
+    available_slots = crud.calculate_available_slots(reservations, start_time, end_time)
+    
    
-    return render_template('search_results.html')
+    return render_template('results.html', date=date_obj.date(), start=start_time, end=end_time, available_slots=available_slots)
 
 @app.route("/book_res")
 def book_res():
